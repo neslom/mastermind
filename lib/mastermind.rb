@@ -40,6 +40,8 @@ if __FILE__ == $0
 	  input = gets.chomp
 	  puts mastermind.initial_input(input)
 	end
+	gameplay = Gameplay.new
+	gameplay.save_game_stats
 	puts "Goodbye!"
 
 end

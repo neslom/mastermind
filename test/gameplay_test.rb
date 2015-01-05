@@ -5,9 +5,10 @@ require '~/Turing/Projects/mastermind/lib/gameplay'
 
 
 class GameplayTest < MiniTest::Test
-  attr_reader :game
+  attr_reader :game, :secret
   def setup
     @game = Gameplay.new
+    $stdout = StringIO.new
   end
 
   def test_it_exists
@@ -28,12 +29,27 @@ class GameplayTest < MiniTest::Test
     refute game.valid_guess?('[]')
   end
 
-  def test_guess_for_color_count
-    skip
-    # since game_setup method is called when play is envoked & play isn't called unless in REPL
-    # I have to manually set @secret to equal ["G", "G", "G", "G"]
-    guess = 'rggb'
-    assert_equal 2, game.color_counter('rggb') 
+  # def test_guess_for_color_count
+  #   game.game_setup
+  #   game.secret = ["G", "G", "G", "G"]
+  #   # for this test to work I have to either manually set secret in gameplay file
+  #   # or have secret as an attr_accessor to set secret in this file
+  #   # both seem like bad options
+  #   guess = 'rggb'
+  #   assert_equal 2, game.color_counter('rggb') 
+  # end
+
+  def test_secret_consists_of_colors
+    # this test also calls color_matcher so it's being tested indirectly
+    game.game_setup # must specifically call game_setup to avoid user input loop
+    test_secret = game.secret.join.downcase.chars.all? { |char| char.match(game.color_matcher) }
+    assert test_secret
+  end
+
+  def test_secret_to_string
+    game.game_setup
+    assert game.secret_to_string.is_a?(String)
+    assert_equal 4, game.secret_to_string.size
   end
 
 end

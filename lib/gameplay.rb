@@ -1,7 +1,7 @@
 require 'pry'
 require_relative 'printer'
 class Gameplay
-  attr_reader :secret, :guess_count
+  attr_reader :secret, :guess_count, :colors
   def initialize
     @secret = []
     @colors = ["R", "G", "B", "Y"]
@@ -39,7 +39,7 @@ class Gameplay
   end
 
   def secret_to_string
-  	@secret.join("").downcase
+    @secret.join("").downcase
   end
 
   def color_matcher
@@ -51,10 +51,10 @@ class Gameplay
 
   def valid_guess?(guess)
     if guess.size < @colors.size
-      #puts Printer.too_few unless guess == 'q'
+      puts Printer.too_few unless guess == 'q'
       false
     elsif guess.size > @colors.size
-      #puts Printer.too_many unless guess == 'q'
+      puts Printer.too_many unless guess == 'q'
       false
     elsif guess.chars.all? { |char| char.match(color_matcher) } == false
       false
@@ -73,29 +73,38 @@ class Gameplay
   end
 
   def color_counter(guess)
-  	number_of_color_occurences = guess.count(@secret.uniq.to_s.downcase)
-  	puts "#{number_of_color_occurences} of your guessed characters match a correct color"
+    number_of_color_occurences = guess.count(@secret.uniq.to_s.downcase)
+    puts "#{number_of_color_occurences} of your guessed characters match a correct color"
   end
 
   def match_guess_with_secret(guess)
-  	guess_characters = guess.chars
-  	secret_characters = @secret.map! { |char| char.downcase }
-  	matched_sets = guess_characters.zip(secret_characters)
+    guess_characters = guess.chars
+    secret_characters = @secret.map! { |char| char.downcase }
+    matched_sets = guess_characters.zip(secret_characters)
   end
 
   def match_counter(guess)
-  	counter = 0
-  	match_guess_with_secret(guess).each do |matches|
-  	  if matches[0] == matches[1]
-  	  	counter += 1
-  	  end
+    counter = 0
+    match_guess_with_secret(guess).each do |matches|
+      if matches[0] == matches[1]
+        counter += 1
+      end
     end
-    puts "You have #{counter} guess in correct positions"
+    if counter == 1
+      puts "You have #{counter} guess in a correct position."
+    else
+      puts "You have #{counter} guesses in correct positions."
+    end
+  end
+
+
+  def save_game_stats(to_file = "game_stats.txt")
+    File.open(to_file, 'w') do |file|
+      file.puts "Mastermind Game Stats:"
+      # @players.sort.each do |player|
+      #   file.puts high_score_entry(player)
+      # end
+    end
   end
 
 end
-
-# a = [1, 2, 3]
-# b = [1, 4, 3]
-
-# a.zip(b).map { |x, y| x == y } # [true, false, true]
