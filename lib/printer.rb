@@ -1,4 +1,4 @@
-module Printer
+class Printer
   def self.welcome_message
   	"Welcome to MASTERMIND\n\nWould you like to (p)lay, read the (i)nstructions, or (q)uit?"
   end
@@ -40,5 +40,7 @@ What's your guess?"
   def self.too_many
     "Too many characters. Try again"
   end
+
+  
   
 end

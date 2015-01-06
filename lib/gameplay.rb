@@ -2,6 +2,7 @@ require 'pry'
 require_relative 'printer'
 class Gameplay
   attr_reader :secret, :guess_count, :colors
+  attr_accessor :secret
   def initialize
     @secret = []
     @colors = ["R", "G", "B", "Y"]
@@ -24,7 +25,7 @@ class Gameplay
         if guess != secret_to_string
           puts "Guess again!"
 
-          color_counter(guess)
+          color_counter_revised(guess)
           match_counter(guess)
         else
           puts Printer.you_win
@@ -77,6 +78,37 @@ class Gameplay
     puts "#{number_of_color_occurences} of your guessed characters match a correct color"
   end
 
+  # def color_counter_revised(guess)
+  #   non_elements = nil
+  #   if secret_to_string.chars == secret_to_string.chars.uniq
+  #     # if secret is all unique characters
+  #     # non = rgby - 
+  #     non_elements = (secret_to_string.chars - guess.chars).size
+  #   else
+  #     # if secret is not all unique chars, 
+  #     non_elements = (guess.chars - secret_to_string.chars).size
+  #   end
+  #   if guess.chars == guess.chars.uniq 
+  #     non_elements = (guess.chars - secret_to_string.chars).size
+  #   else
+  #     non_elements = (secret_to_string.chars - guess.chars).size
+  #   end
+  #   correct_elements = secret.size - non_elements
+  #   puts "Your guess has #{correct_elements} correct elements."
+  # end
+  def color_counter_revised(guess)
+    guess.chars.uniq.each_with_object([]) do |item, obj| 
+      obj << secret_to_string.chars.uniq.count(item)
+    end.reduce(:+)
+  end
+
+    # when secret chars are all unique and guess is "gggg"
+    # color_counter_revised returns "one correct element"
+    # when (secret_to_string.chars - guess.chars).size = non
+
+    # when secret chars are all the same and guess is "gggg"
+    # it returns nil
+
   def match_guess_with_secret(guess)
     guess_characters = guess.chars
     secret_characters = @secret.map! { |char| char.downcase }
@@ -106,5 +138,6 @@ class Gameplay
       # end
     end
   end
-
+  # if guess has multiple characters that exist in the secret
+  # we only need to say that the guess has one correct element
 end

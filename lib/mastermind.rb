@@ -1,4 +1,3 @@
-#require 'pry'
 require_relative 'printer'
 require_relative 'gameplay'
 class Mastermind
@@ -23,14 +22,8 @@ end
 
 
 
-
-# end
-
-# mm = Mastermind.new
-# mm.game_setup
-# p mm.secret
 if __FILE__ == $0
-	puts Printer.welcome_message
+  puts Printer.welcome_message
 
 	input = ""
 	mastermind = Mastermind.new
