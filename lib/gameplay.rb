@@ -2,7 +2,7 @@ require 'pry'
 require_relative 'printer'
 class Gameplay
   attr_reader :secret, :guess_count, :colors
-  attr_accessor :secret
+  attr_accessor :secret  
   def initialize
     @secret = []
     @colors = ["R", "G", "B", "Y"]
