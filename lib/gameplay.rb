@@ -35,12 +35,13 @@ class Gameplay
         puts "Please choose a sequence of #{@colors.size} from: #{ @colors.map {|c| c.to_s }.join(' ') }" unless guess == 'q'
       end
       @guess_count += 1
-      binding.pry
     end
     puts Printer.exit_game
   end
 
   def game_setup
+    # set secret to empty to ensure that there are no elements
+    # left over from previous rounds
     @secret = []
     4.times { @secret << @colors.sample }
   end

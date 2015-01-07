@@ -1,0 +1,159 @@
+diff --git a/lib/gameplay.rb b/lib/gameplay.rb
+index e29f508..206f06f 100644
+--- a/lib/gameplay.rb
++++ b/lib/gameplay.rb
+@@ -1,12 +1,16 @@
+ require 'pry'
+ require_relative 'printer'
+ class Gameplay
+-  attr_reader :secret, :guess_count, :colors
++  attr_reader :secret, :guess_count, :colors, :guess
+   attr_accessor :secret  
++
++  SECRET_SIZE = 4
++
+   def initialize
+-    @secret = []
+-    @colors = ["R", "G", "B", "Y"]
++    #@secret = []
++    @colors = ["R", "G", "B", "Y", "P", "W"]
+     @guess_count = 0
++    @guess = ""
+   end
+ 
+   def play
+@@ -16,45 +20,40 @@ class Gameplay
+ 
+     game_setup
+ 
+-    guess = ''
++    guess
+     while guess != 'q'
+       print "> "
+       guess = gets.chomp.downcase
+-
++      
+       if valid_guess?(guess)
+-        if guess != secret_to_string
+-          puts "Guess again!"
+-
+-          color_counter_revised(guess)
+-          match_counter(guess)
+-        else
+-          puts Printer.you_win
+-          break
+-        end
++        check_guess_for_match(guess)
++
++        
+       else
+         puts "Please choose a sequence of #{@colors.size} from: #{ @colors.map {|c| c.to_s }.join(' ') }" unless guess == 'q'
+       end
+       @guess_count += 1
+-      binding.pry
+     end
+     puts Printer.exit_game
+   end
+ 
+   def game_setup
++    # 
+     @secret = []
+-    4.times { @secret << @colors.sample }
++    @guess = ""
++    SECRET_SIZE.times { @secret << @colors.sample }
+   end
+ 
+   def secret_to_string
+     @secret.join("").downcase
+   end
+ 
+-  def color_matcher
+-    match = @colors.map { |color| color.downcase }
+-    .join("")
+-    match = '[' + match + ']'
+-    Regexp.new match
+-  end
++  # def color_matcher
++  #   match = @colors.map { |color| color.downcase }
++  #   .join("")
++  #   match = '[' + match + ']'
++  #   Regexp.new match
++  # end
+ 
+   def valid_guess?(guess)
+     if guess.size < @colors.size
+@@ -63,13 +62,17 @@ class Gameplay
+     elsif guess.size > @colors.size
+       puts Printer.too_many unless guess == 'q'
+       false
+-    elsif guess.chars.all? { |char| char.match(color_matcher) } == false
++    elsif !all_chars_match?(guess)
+       false
+     else
+       true
+     end
+   end
+ 
++  def all_chars_match?(guess)
++    guess.chars.all? {|char| @colors.include?(char.upcase)}
++  end
++
+ 
+   def color_counter_revised(guess)
+     correct_elements = guess.chars.uniq.each_with_object([]) do |item, obj|
+@@ -91,6 +94,7 @@ class Gameplay
+         counter += 1
+       end
+     end
++
+     if counter == 1
+       puts "You have #{counter} guess in a correct position."
+     else
+@@ -108,4 +112,16 @@ class Gameplay
+     end
+   end
+ 
++  def check_guess_for_match(guess)
++    if guess == secret_to_string
++      puts Printer.you_win
++      break
++    end
++
++    puts "Guess again!"
++
++    color_counter_revised(guess)
++    match_counter(guess)
++  end
++
+ end
+diff --git a/test/gameplay_test.rb b/test/gameplay_test.rb
+index 7966636..bbf8325 100644
+--- a/test/gameplay_test.rb
++++ b/test/gameplay_test.rb
+@@ -29,15 +29,17 @@ class GameplayTest < MiniTest::Test
+     refute game.valid_guess?('[]')
+   end
+ 
+-  # def test_guess_for_color_count
+-  #   game.game_setup
+-  #   game.secret = ["G", "G", "G", "G"]
+-  #   # for this test to work I have to either manually set secret in gameplay file
+-  #   # or have secret as an attr_accessor to set secret in this file
+-  #   # both seem like bad options
+-  #   guess = 'rggb'
+-  #   assert_equal 2, game.color_counter('rggb') 
+-  # end
++  def test_guess_for_color_count
++    game.game_setup
++    my_test_guess = game.guess
++    my_secret = game.secret
++    # game.secret = ["G", "G", "G", "G"]
++    # for this test to work I have to either manually set secret in gameplay file
++    # or have secret as an attr_accessor to set secret in this file
++    # both seem like bad options
++    guess = 'rggb'
++    assert_equal 2, game.color_counter('rggb') 
++  end
+ 
+   def test_secret_consists_of_colors
+     # this test also calls color_matcher so it's being tested indirectly
