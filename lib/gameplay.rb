@@ -25,7 +25,7 @@ class Gameplay
         if guess != secret_to_string
           puts "Guess again!"
 
-          color_counter_revised(guess)
+          color_counter(guess)
           match_counter(guess)
         else
           puts Printer.you_win
@@ -72,11 +72,12 @@ class Gameplay
   end
 
 
-  def color_counter_revised(guess)
+  def color_counter(guess)
     correct_elements = guess.chars.uniq.each_with_object([]) do |item, obj|
       obj << secret_to_string.chars.uniq.count(item)
-    end.reduce(:+)
-    puts "You have guessed #{correct_elements} correct elements"
+    end
+    total_correct = correct_elements.reduce(:+)
+    puts "You have guessed #{total_correct} correct element(s)"
   end
 
   def match_guess_with_secret(guess)
