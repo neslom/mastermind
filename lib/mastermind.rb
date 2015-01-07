@@ -6,17 +6,16 @@ class Mastermind
     @acceptable_input = ['i', 'p', 'q']
     @gameplay = Gameplay.new
   end
-  
+
   def initial_input(input)
-    input = input.downcase if input.is_a?(String)
     if acceptable_input.include?(input)
       if input == 'i'
-        Printer.instructions
+        puts Printer.instructions
       elsif input == 'p'
         gameplay.play
       end
     else
-      Printer.main_menu unless input == 'q'
+      puts Printer.main_menu #unless input == 'q'
     end
   end
 end
@@ -25,15 +24,15 @@ end
 
 if __FILE__ == $0
   puts Printer.welcome_message
-
   input = ""
   mastermind = Mastermind.new
 
   while input != "q"
     print "> "
-    input = gets.chomp
-    puts mastermind.initial_input(input)
+    input = gets.chomp.downcase
+    mastermind.initial_input(input)
   end
+
   gameplay = Gameplay.new
   gameplay.save_game_stats
   puts "Goodbye!"

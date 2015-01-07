@@ -27,7 +27,6 @@ class Gameplay
 
           color_counter_revised(guess)
           match_counter(guess)
-          binding.pry
         else
           puts Printer.you_win
           break
@@ -36,8 +35,14 @@ class Gameplay
         puts "Please choose a sequence of #{@colors.size} from: #{ @colors.map {|c| c.to_s }.join(' ') }" unless guess == 'q'
       end
       @guess_count += 1
+      binding.pry
     end
     puts Printer.exit_game
+  end
+
+  def game_setup
+    @secret = []
+    4.times { @secret << @colors.sample }
   end
 
   def secret_to_string
@@ -65,10 +70,6 @@ class Gameplay
     end
   end
 
-  def game_setup
-    @secret = []
-    4.times { @secret << @colors.sample }
-  end
 
   def color_counter_revised(guess)
     correct_elements = guess.chars.uniq.each_with_object([]) do |item, obj|
