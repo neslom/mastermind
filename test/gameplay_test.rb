@@ -8,7 +8,7 @@ class GameplayTest < MiniTest::Test
   attr_reader :game, :secret
   def setup
     @game = Gameplay.new
-    #$stdout = StringIO.new
+    $stdout = StringIO.new
   end
 
   def test_it_exists

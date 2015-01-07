@@ -24,6 +24,7 @@ class MastermindTest < Minitest::Test
   end
 
   def test_p_starts_game
+    skip
     mm.initial_input("p")
   end
 
