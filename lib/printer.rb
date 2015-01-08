@@ -1,6 +1,9 @@
+# require './color'
+require 'colorize'
+
 class Printer
   def self.welcome_message
-    "\nWelcome to MASTERMIND\n\nWould you like to (p)lay, read the (i)nstructions, or (q)uit?"
+    "\nWelcome to MASTERMIND\n\nWould you like to (p)lay, read the (i)nstructions, or (q)uit?".green
   end
 
   def self.you_win
@@ -8,7 +11,7 @@ class Printer
   end
 
   def self.instructions
-    "Instructions:\n\nTry to solve the code by choosing the correct color for each of the four slots.\n\nWould you like to (p)lay or (q)uit?\n"
+    "Instructions:\n\nTry to solve the code by choosing the correct color for each of the four slots.\n\nWould you like to (p)lay or (q)uit?\n".cyan
   end
 
   def self.play
@@ -29,14 +32,14 @@ class Printer
   end
 
   def self.exit_game
-    "Would you like to exit the game, or play again? Press q to exit and p to play again"
+    "Would you like to exit the game, or play again? Press q to exit and p to play again".yellow
   end
 
   def self.too_few
-    "\nToo few characters. Try again."
+    "\nToo few characters. Try again.".red
   end
 
   def self.too_many
-    "\nToo many characters. Try again"
+    "\nToo many characters. Try again".red
   end
 end

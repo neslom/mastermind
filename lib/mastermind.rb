@@ -40,6 +40,6 @@ if __FILE__ == $0
   end
 
   mastermind.save_game_stats
-  puts "Goodbye!"
+  puts "Goodbye!".red
 
 end
