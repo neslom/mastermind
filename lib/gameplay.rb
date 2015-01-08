@@ -77,7 +77,7 @@ class Gameplay
       obj << secret_to_string.chars.uniq.count(item)
     end
     total_correct = correct_elements.reduce(:+)
-    puts "You have guessed #{total_correct} correct element(s)"
+    puts "You have guessed #{total_correct} correct element(s)."
   end
 
   def match_guess_with_secret(guess)
