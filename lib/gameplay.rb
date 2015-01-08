@@ -2,7 +2,7 @@ require 'pry'
 require_relative 'printer'
 class Gameplay
   attr_reader :secret, :guess_count, :colors
-  attr_accessor :secret  
+  attr_accessor :secret, :guess
   def initialize
     @secret = []
     @colors = ["R", "G", "B", "Y"]
@@ -57,7 +57,7 @@ class Gameplay
     Regexp.new match
   end
 
-  def valid_guess?(guess)
+  def valid_guess?(guess) # tested
     if guess.size < @colors.size
       puts Printer.too_few unless guess == 'q'
       false
@@ -72,12 +72,12 @@ class Gameplay
   end
 
 
-  def color_counter(guess)
+  def color_counter(guess) # tested
     correct_elements = guess.chars.uniq.each_with_object([]) do |item, obj|
       obj << secret_to_string.chars.uniq.count(item)
     end
     total_correct = correct_elements.reduce(:+)
-    puts "You have guessed #{total_correct} correct element(s)."
+    #puts "You have guessed #{total_correct} correct element(s)."
   end
 
   def match_guess_with_secret(guess)

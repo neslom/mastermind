@@ -16,7 +16,7 @@ class GameplayTest < MiniTest::Test
   end
 
   def test_valid_guess
-    guess1 = 'rgby'.downcase # calling downcase here b/c user input
+    guess1 = 'rgby' # calling downcase here b/c user input
     guess2 = "BBBB".downcase # will have the method called on it
     assert game.valid_guess?(guess1)
     assert game.valid_guess?(guess2)
@@ -29,15 +29,12 @@ class GameplayTest < MiniTest::Test
     refute game.valid_guess?('[]')
   end
 
-  # def test_guess_for_color_count
-  #   game.game_setup
-  #   game.secret = ["G", "G", "G", "G"]
-  #   # for this test to work I have to either manually set secret in gameplay file
-  #   # or have secret as an attr_accessor to set secret in this file
-  #   # both seem like bad options
-  #   guess = 'rggb'
-  #   assert_equal 2, game.color_counter('rggb') 
-  # end
+  def test_guess_for_color_count
+    game.game_setup
+    game.secret = ["G", "G", "G", "G"]
+    guess = 'rggb'
+    assert_equal 1, game.color_counter('rggb') 
+  end
 
   def test_secret_consists_of_colors
     # this test also calls color_matcher so it's being tested indirectly
@@ -48,8 +45,10 @@ class GameplayTest < MiniTest::Test
 
   def test_secret_to_string
     game.game_setup
-    assert game.secret_to_string.is_a?(String)
-    assert_equal 4, game.secret_to_string.size
+    game.secret = ["R", "G", "G", "Y"]
+    assert_equal "rggy", game.secret_to_string
   end
+
+
 
 end
