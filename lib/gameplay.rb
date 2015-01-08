@@ -25,8 +25,7 @@ class Gameplay
 
       if valid_guess?(guess)
         if guess != secret_to_string
-          puts "\nGuess again!"
-
+          puts "\nGuess again!".green
           color_counter(guess)
           match_counter(guess)
           puts "\nGuess count: #{guess_count + 1}"

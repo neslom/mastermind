@@ -1,4 +1,3 @@
-# require './color'
 require 'colorize'
 
 class Printer
@@ -11,7 +10,7 @@ class Printer
   end
 
   def self.instructions
-    "Instructions:\n\nTry to solve the code by choosing the correct color for each of the four slots.\n\nWould you like to (p)lay or (q)uit?\n".cyan
+    "Instructions:\n\nTry to solve the code by choosing the correct color for each of the four slots.\n\nWould you like to (p)lay or (q)uit?".cyan
   end
 
   def self.play

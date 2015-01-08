@@ -18,7 +18,7 @@ class MastermindTest < Minitest::Test
     readable_output.initial_input("i")
     test_output.rewind
 
-    assert_equal result, test_output.read
+    assert_equal result, test_output.read.chop # chops \n char
   end
 
   def test_invalid_input_prints_main_menu
