@@ -3,14 +3,16 @@ require_relative 'printer'
 class Gameplay
   attr_reader :secret, :guess_count, :colors
   attr_accessor :secret, :guess
-  def initialize
+  def initialize(stdin=$stdin, stdout=$stdout)
     @secret = []
     @colors = ["R", "G", "B", "Y"]
     @guess_count = 0
+    @stdin = stdin
+    @stdout = stdout
   end
 
   def play
-    puts Printer.play
+    @stdout.puts Printer.play
 
     puts Printer.enter_guess
 
@@ -73,11 +75,11 @@ class Gameplay
 
 
   def color_counter(guess) # tested
-    correct_elements = guess.chars.uniq.each_with_object([]) do |item, obj|
+    correct_elements_guessed = guess.chars.uniq.each_with_object([]) do |item, obj|
       obj << secret_to_string.chars.uniq.count(item)
     end
-    total_correct = correct_elements.reduce(:+)
-    #puts "You have guessed #{total_correct} correct element(s)."
+    total_correct_elements = correct_elements_guessed.reduce(:+)
+    puts "You have guessed #{total_correct_elements} correct element(s)."
   end
 
   def match_guess_with_secret(guess)

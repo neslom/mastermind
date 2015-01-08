@@ -16,8 +16,8 @@ class GameplayTest < MiniTest::Test
   end
 
   def test_valid_guess
-    guess1 = 'rgby' # calling downcase here b/c user input
-    guess2 = "BBBB".downcase # will have the method called on it
+    guess1 = 'rgby'
+    guess2 = "bbbb"
     assert game.valid_guess?(guess1)
     assert game.valid_guess?(guess2)
   end

@@ -8,7 +8,7 @@ class Printer
   end
 
   def self.instructions
-    "Instructions:\n\nTry to solve the code by choosing the correct color for each of the four slots.\n\nWould you like to (p)lay or (q)uit?"
+    "Instructions:\n\nTry to solve the code by choosing the correct color for each of the four slots.\n\nWould you like to (p)lay or (q)uit?\n"
   end
 
   def self.play
@@ -21,7 +21,7 @@ class Printer
   end
 
   def self.main_menu
-    "Main menu:\np to play\ni for instructions\nq to quit"
+    "Main menu:\np to play\ni for instructions\nq to quit\n"
   end
 
   def self.enter_guess

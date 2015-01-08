@@ -12,33 +12,31 @@ class MastermindTest < Minitest::Test
   end
 
   def test_i_input_prints_instructions
-    skip
-  	result = Printer.instructions
-    assert result.include?("Try to solve the code by choosing")
+    test_output = StringIO.new
+    readable_output = Mastermind.new(StringIO.new, test_output)
+    result = Printer.instructions   
+    readable_output.initial_input("i")
+    test_output.rewind
+
+    assert_equal result, test_output.read
   end
 
   def test_invalid_input_prints_main_menu
-    skip
-  	assert_equal Printer.main_menu, mm.initial_input(4)
-  	assert_equal Printer.main_menu, mm.initial_input({})
+    test_output = StringIO.new
+    readable_output = Mastermind.new(StringIO.new, test_output)
+    result = Printer.main_menu  
+    readable_output.initial_input("999")
+    test_output.rewind
+
+    assert_equal result, test_output.read
   end
 
-  def test_p_starts_game
-    skip
-    mm.initial_input("p")
-  end
+  # def test_p_starts_game
+  #   test_output = StringIO.new
+  #   readable_output = Mastermind.new(StringIO.new, test_output)
+  #   result = Printer.play
+  #   readable_output.initial_input("p")
 
-
-
-  # def test_it_wins
-  # 	skip
-  #   result = mm.initial_input("BBGB")
-  #   assert result.downcase.include?("win")
+  #   assert test_output.read.include?(result)
   # end
-
-  # def test_returns_shuffled_array_of_letters
-  # 	output = mm.stub :game_setup, ["R", "B", "Y", "G"]
-  # 	assert_equal ["R", "B", "Y", "G"], output
-  # end
-
 end
