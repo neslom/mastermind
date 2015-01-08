@@ -1,5 +1,6 @@
 require_relative 'printer'
 require_relative 'gameplay'
+
 class Mastermind
   attr_reader :gameplay
   def initialize(stdin=$stdin, stdout=$stdout)
@@ -17,6 +18,12 @@ class Mastermind
       @stdout.puts Printer.main_menu unless input == 'q'
     end
   end
+
+  def save_game_stats(to_file = "game_stats.txt")
+    File.open(to_file, 'w') do |file|
+      file.puts "Mastermind Game Stats:"
+    end
+  end
 end
 
 
@@ -32,8 +39,7 @@ if __FILE__ == $0
     mastermind.initial_input(input)
   end
 
-  gameplay = Gameplay.new
-  gameplay.save_game_stats
+  mastermind.save_game_stats
   puts "Goodbye!"
 
 end

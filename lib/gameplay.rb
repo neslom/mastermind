@@ -1,5 +1,5 @@
-require 'pry'
 require_relative 'printer'
+
 class Gameplay
   attr_reader :guess_count, :colors
   attr_accessor :secret, :guess
@@ -30,10 +30,9 @@ class Gameplay
           color_counter(guess)
           match_counter(guess)
           puts "\nGuess count: #{guess_count + 1}"
-          binding.pry
         else
           puts Printer.you_win
-          play_time
+          print_time
           break
         end
       else
@@ -47,28 +46,33 @@ class Gameplay
   def game_setup 
     # set secret to empty to ensure that there are no elements
     # left over from previous rounds
-    @time = Time.now
+    @start_time = Time.now
     @secret = []
     @guess_count = 0
     @colors.size.times { @secret << @colors.sample }
   end
 
   def play_time
-    puts (Time.now - @time)
+    (Time.now - @start_time).to_i
   end
 
-  def secret_to_string # tested
+  def print_time
+    mm, ss = play_time.divmod(60)
+    puts "You completed the game in #{mm} minute(s) and #{ss} seconds."
+  end
+
+  def secret_to_string
     @secret.join("").downcase
   end
 
-  def color_matcher # tested
+  def color_matcher
     match = @colors.map { |color| color.downcase }
     .join("")
     match = '[' + match + ']'
     Regexp.new match
   end
 
-  def valid_guess?(guess) # tested
+  def valid_guess?(guess)
     if guess.size < @colors.size
       puts Printer.too_few unless guess == 'q'
       false
@@ -82,8 +86,7 @@ class Gameplay
     end
   end
 
-
-  def color_counter(guess) # tested
+  def color_counter(guess)
     correct_elements_guessed = guess.chars.uniq.each_with_object([]) do |item, obj|
       obj << secret_to_string.chars.uniq.count(item)
     end
@@ -110,15 +113,4 @@ class Gameplay
       puts "\nYou have #{counter} guesses in correct positions."
     end
   end
-
-
-  def save_game_stats(to_file = "game_stats.txt")
-    File.open(to_file, 'w') do |file|
-      file.puts "Mastermind Game Stats:"
-      # @players.sort.each do |player|
-      #   file.puts high_score_entry(player)
-      # end
-    end
-  end
-
 end

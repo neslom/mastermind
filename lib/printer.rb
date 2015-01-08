@@ -39,5 +39,4 @@ class Printer
   def self.too_many
     "\nToo many characters. Try again"
   end
-
 end

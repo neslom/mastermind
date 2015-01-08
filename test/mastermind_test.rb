@@ -36,7 +36,7 @@ class MastermindTest < Minitest::Test
   #   readable_output = Mastermind.new(StringIO.new, test_output)
   #   result = Printer.play
   #   readable_output.initial_input("p")
-
-  #   assert test_output.read.include?(result)
+  #   test_output.rewind
+  #   assert test_output.include?(result)
   # end
 end
