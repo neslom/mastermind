@@ -21,7 +21,7 @@ class Mastermind
 
   def save_game_stats(to_file = "game_stats.txt")
     File.open(to_file, 'w') do |file|
-      file.puts "Mastermind Game Stats:"
+      file.puts "Mastermind Game Stats:\n\nFeature currently unavailable."
     end
   end
 end
