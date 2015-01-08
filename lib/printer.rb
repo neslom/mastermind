@@ -1,6 +1,6 @@
 class Printer
   def self.welcome_message
-    "Welcome to MASTERMIND\n\nWould you like to (p)lay, read the (i)nstructions, or (q)uit?"
+    "\nWelcome to MASTERMIND\n\nWould you like to (p)lay, read the (i)nstructions, or (q)uit?"
   end
 
   def self.you_win
@@ -33,11 +33,11 @@ class Printer
   end
 
   def self.too_few
-    "Too few characters. Try again."
+    "\nToo few characters. Try again."
   end
 
   def self.too_many
-    "Too many characters. Try again"
+    "\nToo many characters. Try again"
   end
 
 end

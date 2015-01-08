@@ -1,7 +1,7 @@
 require 'pry'
 require_relative 'printer'
 class Gameplay
-  attr_reader :secret, :guess_count, :colors
+  attr_reader :guess_count, :colors
   attr_accessor :secret, :guess
   def initialize(stdin=$stdin, stdout=$stdout)
     @secret = []
@@ -12,7 +12,7 @@ class Gameplay
   end
 
   def play
-    @stdout.puts Printer.play
+    puts Printer.play
 
     puts Printer.enter_guess
 
@@ -25,12 +25,15 @@ class Gameplay
 
       if valid_guess?(guess)
         if guess != secret_to_string
-          puts "Guess again!"
+          puts "\nGuess again!"
 
           color_counter(guess)
           match_counter(guess)
+          puts "\nGuess count: #{guess_count + 1}"
+          binding.pry
         else
           puts Printer.you_win
+          play_time
           break
         end
       else
@@ -41,18 +44,24 @@ class Gameplay
     puts Printer.exit_game
   end
 
-  def game_setup
+  def game_setup 
     # set secret to empty to ensure that there are no elements
     # left over from previous rounds
+    @time = Time.now
     @secret = []
-    4.times { @secret << @colors.sample }
+    @guess_count = 0
+    @colors.size.times { @secret << @colors.sample }
   end
 
-  def secret_to_string
+  def play_time
+    puts (Time.now - @time)
+  end
+
+  def secret_to_string # tested
     @secret.join("").downcase
   end
 
-  def color_matcher
+  def color_matcher # tested
     match = @colors.map { |color| color.downcase }
     .join("")
     match = '[' + match + ']'
@@ -79,7 +88,7 @@ class Gameplay
       obj << secret_to_string.chars.uniq.count(item)
     end
     total_correct_elements = correct_elements_guessed.reduce(:+)
-    puts "You have guessed #{total_correct_elements} correct element(s)."
+    puts "\nYou have guessed #{total_correct_elements} correct element(s)."
   end
 
   def match_guess_with_secret(guess)
@@ -96,9 +105,9 @@ class Gameplay
       end
     end
     if counter == 1
-      puts "You have #{counter} guess in a correct position."
+      puts "\nYou have #{counter} guess in a correct position."
     else
-      puts "You have #{counter} guesses in correct positions."
+      puts "\nYou have #{counter} guesses in correct positions."
     end
   end
 
